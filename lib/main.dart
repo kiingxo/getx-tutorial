@@ -12,7 +12,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return const GetMaterialApp(
       debugShowCheckedModeBanner: false,
-      title: "Snack bar tutorial",
+      title: "Getx",
       home: HomePage(),
     );
   }
@@ -25,7 +25,7 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("SnackBar"),
+        title: const Text("Bottom Sheet and Dynamic theme"),
       ),
       body: Center(
         child: Column(
@@ -34,25 +34,31 @@ class HomePage extends StatelessWidget {
           children: [
             ElevatedButton(
               onPressed: () {
-                Get.snackbar(
-                  "SnackBar", "testing snackbar",
-                  animationDuration: const Duration(milliseconds: 3000),
-                  snackPosition: SnackPosition.BOTTOM,
-                  titleText: const Text("Snackbar title 1"),
-                  // messageText: const Text("israel"),
-                  colorText: Colors.blue,
-                  backgroundColor: Colors.blue,
-                  isDismissible: true,
-                  dismissDirection: DismissDirection.horizontal,
-                  icon: const Icon(Icons.abc),
-                  // userInputForm: ,
-                  onTap: (v) {
-                    print("clicked");
-                  },
-                  overlayBlur: 2,
+                Get.bottomSheet(
+                  //bottomsheet has multiple propeerties
+                  Container(
+                    child: Wrap(
+                      children: [
+                        ListTile(
+                          leading: const Icon(Icons.wb_sunny_outlined),
+                          title: const Text("Light Theme"),
+                          onTap: () {
+                            Get.changeTheme(ThemeData.light());
+                          },
+                        ),
+                        ListTile(
+                          leading: const Icon(Icons.wb_sunny),
+                          title: const Text("Dark Theme"),
+                          onTap: () {
+                            Get.changeTheme(ThemeData.dark());
+                          },
+                        ),
+                      ],
+                    ),
+                  ),
                 );
               },
-              child: const Text("Show snack bar"),
+              child: const Text("Bottom Sheet"),
             ),
           ],
         ),
