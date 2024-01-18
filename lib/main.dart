@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 void main() {
-  runApp(const MyApp());
+  runApp(
+    const MyApp(),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -10,22 +12,36 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return const GetMaterialApp(
+    return GetMaterialApp(
       debugShowCheckedModeBanner: false,
+      initialRoute: "/",
+      getPages: [
+        GetPage(
+          name: "/",
+          page: () => const MyApp(),
+        ),
+        GetPage(
+          name: "/home",
+          page: () => const Home2(),
+        ),
+        GetPage(
+          name: "/next",
+          page: () => const NextPage(),
+        ),
+      ],
       title: "Getx",
-      home: HomePage(),
+      home: const HomePage(),
     );
   }
 }
 
 class HomePage extends StatelessWidget {
   const HomePage({super.key});
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Bottom Sheet and Dynamic theme"),
+        title: const Text("Navigation"),
       ),
       body: Center(
         child: Column(
@@ -34,33 +50,60 @@ class HomePage extends StatelessWidget {
           children: [
             ElevatedButton(
               onPressed: () {
-                Get.bottomSheet(
-                  //bottomsheet has multiple propeerties
-                  Container(
-                    child: Wrap(
-                      children: [
-                        ListTile(
-                          leading: const Icon(Icons.wb_sunny_outlined),
-                          title: const Text("Light Theme"),
-                          onTap: () {
-                            Get.changeTheme(ThemeData.light());
-                          },
-                        ),
-                        ListTile(
-                          leading: const Icon(Icons.wb_sunny),
-                          title: const Text("Dark Theme"),
-                          onTap: () {
-                            Get.changeTheme(ThemeData.dark());
-                          },
-                        ),
-                      ],
-                    ),
-                  ),
-                );
+                Get.toNamed("/home");
               },
-              child: const Text("Bottom Sheet"),
+              child: const Text("Go to Home3"),
             ),
           ],
+        ),
+      ),
+    );
+  }
+}
+
+class Home2 extends StatelessWidget {
+  const Home2({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text("Home Screen"),
+      ),
+      body: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            ElevatedButton(
+              onPressed: () {
+                Get.back();
+              },
+              child: const Text("Go mainscreen"),
+            ),
+            ElevatedButton(
+              onPressed: () {},
+              child: const Text("Go to next screen"),
+            ),
+            const SizedBox(
+              height: 15,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
+
+class NextPage extends StatelessWidget {
+  const NextPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      appBar: AppBar(
+        title: const Text(
+          "Next Page",
         ),
       ),
     );
