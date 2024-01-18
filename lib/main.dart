@@ -37,7 +37,15 @@ class HomePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             //using controller type
-            GetX<Mycontroller>(
+            GetBuilder<Mycontroller>(
+              id: "caps",
+              //initialize conntroller
+              init: Mycontroller(),
+              builder: (controller) {
+                return Text("Student name is ${controller.student.name}");
+              },
+            ),
+            GetBuilder<Mycontroller>(
               //initialize conntroller
               init: Mycontroller(),
               builder: (controller) {

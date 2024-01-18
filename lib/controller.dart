@@ -10,6 +10,7 @@ class Mycontroller extends GetxController {
     } else {
       student.name.value = student.name.value.toUpperCase();
     }
+    update(["caps"]);
   }
 }
 
