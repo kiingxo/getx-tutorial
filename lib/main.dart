@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:getx_tutorial/controller.dart';
 import 'package:getx_tutorial/student.dart';
 
 void main() {
@@ -16,15 +17,15 @@ class MyApp extends StatelessWidget {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: "Getx",
-      home: HomePage(),
+      home: HomePage2(),
     );
   }
 }
 
-//obs on individal variables in the class
 class HomePage extends StatelessWidget {
-  var student = Student1();
-  // var studentName = Student().name.value;
+  //create an object of mycontroller to access the methods in the class
+  Mycontroller mycontroller = Get.put(Mycontroller());
+
   HomePage({super.key});
 
   @override
@@ -39,15 +40,12 @@ class HomePage extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Obx(
-              () => Text("Student name is ${student.name.value}"),
+              //UI<==>Controller<==>model
+              () => Text("Student name is ${mycontroller.student.name}"),
             ),
             ElevatedButton(
               onPressed: () {
-                if (student.name.value == student.name.value.toUpperCase()) {
-                  student.name.value = student.name.value.toLowerCase();
-                } else {
-                  student.name.value = student.name.value.toUpperCase();
-                }
+                mycontroller.upperCase();
               },
               child: const Text("capslock"),
             ),
@@ -60,7 +58,7 @@ class HomePage extends StatelessWidget {
 
 //obs on the entire class
 class HomePage2 extends StatelessWidget {
-  var student = Student2(name: "Israel", age: 40).obs;
+  Mycontroller2 mycontroller2 = Get.put(Mycontroller2());
 
   HomePage2({super.key});
 
@@ -76,24 +74,12 @@ class HomePage2 extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             Obx(
-              () => Text("Student name is ${student.value.name}"),
+              () => Text("Student name is ${mycontroller2.student.value.name}"),
             ),
             ElevatedButton(
               onPressed: () {
-                student.update((val) {
-                  student.value.name =
-                      student.value.name.toString().toUpperCase();
-                });
+                mycontroller2.upperCase();
               },
-              // onPressed: () {
-              //   if (student.value.name ==
-              //       student.value.name.toString().toUpperCase()) {
-              //     student.value.name =
-              //         student.value.name.toString().toLowerCase();
-              //   } else {
-              //     student.value.name = student.value.toString().toUpperCase();
-              //   }
-              // },
               child: const Text("caps"),
             ),
           ],

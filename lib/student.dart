@@ -2,7 +2,7 @@ import 'package:get/get.dart';
 
 //obs on individual var
 class Student1 {
-  var name = "Tom".obs;
+  var name = "Israel".obs;
   var age = 25.obs;
 }
 
