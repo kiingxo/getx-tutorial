@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:getx_tutorial/controller.dart';
 
 void main() async {
   await GetStorage.init();
@@ -23,50 +24,35 @@ class MyApp extends StatelessWidget {
 }
 
 class HomePage extends StatelessWidget {
-  var emailcontroller = TextEditingController();
-  var storage = GetStorage();
+  //creating instance of controller
+  // Mycontroller mycontroller =
+  //     Get.put(Mycontroller(), tag: "instance1", permanent: true);
+
   HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
+    //async operation
+    Get.putAsync<Mycontroller>(
+      () async => Mycontroller(),
+    );
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Get Storage and Email Validation"),
+        title: const Text("dependency injection"),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            Padding(
-              padding: const EdgeInsets.all(16),
-              child: TextField(
-                controller: emailcontroller,
-              ),
-            ),
-            //using controller type
-
             ElevatedButton(
               onPressed: () {
-                if (GetUtils.isEmail(emailcontroller.text)) {
-                  storage.write("email", emailcontroller.text);
-                  Get.snackbar("Email stored", "gotten mailis",
-                      snackPosition: SnackPosition.BOTTOM);
-                } else {
-                  Get.snackbar("Not an email", "Invalid email,Check email",
-                      snackPosition: SnackPosition.BOTTOM);
-                }
+                Get.find<Mycontroller>().increament();
               },
-              child: const Text("write"),
+              child: const Text("click"),
             ),
             const SizedBox(
               height: 15,
-            ),
-            ElevatedButton(
-              onPressed: () {
-                print("Email is ${storage.read("email")}");
-              },
-              child: const Text("Read"),
             ),
           ],
         ),
