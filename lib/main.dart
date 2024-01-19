@@ -1,16 +1,16 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:getx_tutorial/controller.dart';
-import 'package:getx_tutorial/student.dart';
+import 'package:get_storage/get_storage.dart';
 
-void main() {
+void main() async {
+  await GetStorage.init();
   runApp(
-    const MyApp(),
+    MyApp(),
   );
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -23,41 +23,50 @@ class MyApp extends StatelessWidget {
 }
 
 class HomePage extends StatelessWidget {
+  var emailcontroller = TextEditingController();
+  var storage = GetStorage();
   HomePage({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("StateManagement"),
+        title: const Text("Get Storage and Email Validation"),
       ),
       body: Center(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            //using controller type
-            GetBuilder<Mycontroller>(
-              id: "caps",
-              //initialize conntroller
-              init: Mycontroller(),
-              builder: (controller) {
-                return Text("Student name is ${controller.student.name}");
-              },
+            Padding(
+              padding: const EdgeInsets.all(16),
+              child: TextField(
+                controller: emailcontroller,
+              ),
             ),
-            GetBuilder<Mycontroller>(
-              //initialize conntroller
-              init: Mycontroller(),
-              builder: (controller) {
-                return Text("Student name is ${controller.student.name}");
+            //using controller type
+
+            ElevatedButton(
+              onPressed: () {
+                if (GetUtils.isEmail(emailcontroller.text)) {
+                  storage.write("email", emailcontroller.text);
+                  Get.snackbar("Email stored", "gotten mailis",
+                      snackPosition: SnackPosition.BOTTOM);
+                } else {
+                  Get.snackbar("Not an email", "Invalid email,Check email",
+                      snackPosition: SnackPosition.BOTTOM);
+                }
               },
+              child: const Text("write"),
+            ),
+            const SizedBox(
+              height: 15,
             ),
             ElevatedButton(
               onPressed: () {
-                //get instance of  conntroller
-                Get.find<Mycontroller>().upperCase();
+                print("Email is ${storage.read("email")}");
               },
-              child: const Text("capslocks"),
+              child: const Text("Read"),
             ),
           ],
         ),
